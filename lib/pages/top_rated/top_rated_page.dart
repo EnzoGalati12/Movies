@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/models/movie_model.dart';
+import 'package:movie_app/pages/home/details/details_page.dart';
 import 'package:movie_app/pages/top_rated/widgets/top_rated_movie.dart';
 import 'package:movie_app/services/api_services.dart';
+// Importe a página de detalhes
 
 class TopRatedPage extends StatefulWidget {
   const TopRatedPage({super.key});
@@ -43,10 +45,22 @@ class _TopRatedPageState extends State<TopRatedPage> {
               return ListView.builder(
                 itemCount: snapshot.data!.movies.length,
                 itemBuilder: (context, index) {
-                  return TopRatedMovie(movie: snapshot.data!.movies[index]);
+                  var movie = snapshot.data!.movies[index];
+                  
+                  // Envolver com GestureDetector para navegação
+                  return GestureDetector(
+                    onTap: () {
+                      // Navegar para a página de detalhes
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailsPage(movieId: movie.id),
+                        ),
+                      );
+                    },
+                    child: TopRatedMovie(movie: movie),
+                  );
                 },
-
-                
               );
             }
 
